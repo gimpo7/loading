@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, follow">
+
+  <!-- OpenGraph neutro para validação pelo rastreador do Pinterest e redes sociais -->
+  <title>Verificando Página Oficial</title>
+  <meta property="og:title" content="Redirecionando para a Página Oficial">
+  <meta property="og:description" content="Verificando cupons ativos, menor preço e estoque da página oficial.">
+  <meta property="og:type" content="website">
+
+  <style>
+    /* Reset & Base */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #060913;
+      color: #f1f5f9;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Fundo com Iluminação Gradiente Suave */
+    .bg-glow {
+      position: absolute;
+      width: 480px;
+      height: 480px;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, rgba(6, 182, 212, 0.08) 40%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 0;
+      pointer-events: none;
+      filter: blur(40px);
+      animation: pulseGlow 6s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulseGlow {
+      0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.7; }
+      100% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+    }
+
+    /* Cartão Principal Glassmorphism */
+    .card {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 420px;
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      padding: 36px 28px;
+      text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(16, 185, 129, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    /* Badge de Topo Neutra */
+    .brand-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      color: #34d399;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    .brand-badge .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: #10b981;
+      box-shadow: 0 0 8px #10b981;
+      animation: pulseDot 2s infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    /* Spinner Animado Moderno */
+    .loader-wrapper {
+      position: relative;
+      width: 76px;
+      height: 76px;
+      margin: 0 auto 24px auto;
+    }
+
+    .spinner-ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      border-top-color: #10b981;
+      border-right-color: #06b6d4;
+      animation: spin 1s cubic-bezier(0.55, 0.15, 0.45, 0.85) infinite;
+    }
+
+    .spinner-core {
+      position: absolute;
+      inset: 9px;
+      border-radius: 50%;
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px dashed rgba(16, 185, 129, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .spinner-core svg {
+      width: 26px;
+      height: 26px;
+      color: #34d399;
+      animation: bounceSmall 2s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes bounceSmall {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-2px); }
+    }
+
+    /* Textos e Títulos */
+    .title {
+      font-size: 19px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: #94a3b8;
+      line-height: 1.5;
+      margin-bottom: 24px;
+      min-height: 38px;
+      transition: opacity 0.2s ease;
+    }
+
+    /* Barra de Progresso Elegante com Shimmer */
+    .progress-bar-container {
+      width: 100%;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 9999px;
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 30%;
+      background: linear-gradient(90deg, #10b981, #06b6d4, #10b981);
+      background-size: 200% 100%;
+      border-radius: 9999px;
+      animation: progressIndeterminate 1.8s infinite linear;
+    }
+
+    @keyframes progressIndeterminate {
+      0% {
+        left: -40%;
+        width: 40%;
+        background-position: 0% 50%;
+      }
+      50% {
+        left: 20%;
+        width: 60%;
+      }
+      100% {
+        left: 100%;
+        width: 40%;
+        background-position: 100% 50%;
+      }
+    }
+
+    /* Rodapé Seguro */
+    .secure-footer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 11px;
+      color: #64748b;
+    }
+
+    .secure-footer svg {
+      width: 13px;
+      height: 13px;
+      color: #10b981;
+    }
+
+    /* Caixa de Fallback (Oculta por padrão) */
+    .fallback-box {
+      display: none;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .btn-action {
+      display: inline-block;
+      width: 100%;
+      padding: 12px 20px;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 12px;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+      transition: all 0.2s ease;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-action:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.45);
+    }
+
+    .error-text {
+      color: #cbd5e1;
+      font-size: 12px;
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-glow"></div>
+
+  <div class="card">
+    <!-- Badge Neutra -->
+    <div class="brand-badge">
+      <span class="dot"></span>
+      Verificação Segura
+    </div>
+
+    <!-- Spinner Animado -->
+    <div class="loader-wrapper" id="loader-icon">
+      <div class="spinner-ring"></div>
+      <div class="spinner-core">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Textos Dinâmicos -->
+    <h1 class="title" id="main-title">Acessando a Página...</h1>
+    <p class="subtitle" id="status-text">Verificando melhor preço, cupons e estoque oficial...</p>
+
+    <!-- Barra de Progresso com Shimmer -->
+    <div class="progress-bar-container" id="progress-container">
+      <div class="progress-bar-fill"></div>
+    </div>
+
+    <!-- Rodapé de Autenticidade -->
+    <div class="secure-footer">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+      </svg>
+      <span>Conexão criptografada e redirecionamento seguro</span>
+    </div>
+
+    <!-- Fallback / Botão Manual em Caso de Delay ou Bloqueio -->
+    <div class="fallback-box" id="fallback-box">
+      <p class="error-text" id="fallback-msg">Se não for redirecionado automaticamente:</p>
+      <a href="#" id="btn-manual" class="btn-action">Acessar Página Agora</a>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      // 1. CONFIGURAÇÃO DA API
+      // Consulta exclusivamente a API de resolução de link
+      const API_BASE = "https://painel.gimpo.com.br/api/r/";
+
+      const statusEl = document.getElementById("status-text");
+      const titleEl = document.getElementById("main-title");
+      const fallbackBox = document.getElementById("fallback-box");
+      const fallbackMsg = document.getElementById("fallback-msg");
+      const btnManual = document.getElementById("btn-manual");
+      const progressContainer = document.getElementById("progress-container");
+
+      // 2. EXTRAÇÃO DA CHAVE NA URL (?key=... ou ?k=...)
+      const urlParams = new URLSearchParams(window.location.search);
+      const chave = (urlParams.get("key") || urlParams.get("k") || "").trim();
+
+      // Transição suave de mensagens de carregamento para aumentar a percepção de segurança
+      const timerMensagem = setTimeout(() => {
+        if (statusEl) {
+          statusEl.textContent = "Conectando ao produto oficial e validando desconto...";
+        }
+      }, 900);
+
+      // Função para exibir fallback manual
+      function mostrarFallback(urlDestino, mensagem) {
+        clearTimeout(timerMensagem);
+        if (progressContainer) progressContainer.style.display = "none";
+        if (fallbackBox) fallbackBox.style.display = "block";
+        if (fallbackMsg && mensagem) fallbackMsg.textContent = mensagem;
+
+        if (urlDestino && urlDestino.startsWith("http")) {
+          btnManual.href = urlDestino;
+          btnManual.style.display = "inline-block";
+        } else {
+          btnManual.style.display = "none";
+        }
+      }
+
+      // Validação básica da chave
+      if (!chave) {
+        titleEl.textContent = "Link em Atualização";
+        statusEl.textContent = "Aguardando parâmetros da página.";
+        mostrarFallback(null, "Identificador da página não informado.");
+        return;
+      }
+
+      // 3. CONSULTA À API DO REDIRECIONADOR
+      const endpoint = API_BASE + encodeURIComponent(chave);
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 6000); // 6s timeout de segurança
+
+      fetch(endpoint, {
+        method: "GET",
+        headers: { "Accept": "application/json" },
+        signal: controller.signal
+      })
+      .then(response => {
+        clearTimeout(timeoutId);
+        if (!response.ok) {
+          throw new Error("HTTP " + response.status);
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (data && data.url && data.url.startsWith("http")) {
+          titleEl.textContent = "Pronto! Redirecionando...";
+          statusEl.textContent = "Abrindo a página oficial...";
+
+          btnManual.href = data.url;
+
+          // Redireciona com window.location.replace para não quebrar o histórico do botão "Voltar"
+          window.location.replace(data.url);
+
+          // Se em 2.5s ainda não tiver saído da página (ex: navegador pausou ou bloqueou), exibe o botão
+          setTimeout(() => {
+            mostrarFallback(data.url, "Clique abaixo para ir direto à página:");
+          }, 2500);
+        } else {
+          throw new Error("URL inválida retornada.");
+        }
+      })
+      .catch(err => {
+        clearTimeout(timeoutId);
+        console.warn("Redirecionador: falha ao buscar URL:", err);
+        titleEl.textContent = "Redirecionamento Seguro";
+        statusEl.textContent = "Carregamento concluído.";
+        mostrarFallback(null, "Acesse a página diretamente pelo link compartilhado.");
+      });
+    })();
+  </script>
+</body>
+</html>
